@@ -51,6 +51,7 @@ class HalfModalViewController: UIViewController ,UITableViewDataSource, UITableV
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        print(presentingViewController!)
         presentingViewController?.beginAppearanceTransition(true, animated: true)
     }
     
@@ -69,6 +70,7 @@ class HalfModalViewController: UIViewController ,UITableViewDataSource, UITableV
         return cell!
     }
     
+    // セルが選択された時に呼び出される
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at:indexPath)
         // チェックマークを入れる
@@ -90,6 +92,7 @@ class HalfModalViewController: UIViewController ,UITableViewDataSource, UITableV
         cell?.accessoryType = .none
     }
     
+    //ピンを削除
     @IBAction func deleteAnnnotation(){
         isDeleted=true
         if let handler = self.resultHandler {
@@ -100,6 +103,5 @@ class HalfModalViewController: UIViewController ,UITableViewDataSource, UITableV
             realm.delete(object)
         }
         self.dismiss(animated: true, completion: nil)
-        
     }
 }

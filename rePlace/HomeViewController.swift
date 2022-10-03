@@ -25,7 +25,6 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate , MKMapVie
         super.viewDidLoad()
         self.mapView.delegate = self
         self.mapView.setUserTrackingMode(MKUserTrackingMode.followWithHeading, animated: true)
-        locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         // 位置情報の使用の許可を得る
         locationManager.requestAlwaysAuthorization()
@@ -45,14 +44,14 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate , MKMapVie
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-            let next = segue.destination
-            if let sheet = next.sheetPresentationController {
-                sheet.detents = [.medium()]
-                //モーダル出現後も親ビュー操作可能にする
-                sheet.largestUndimmedDetentIdentifier = .medium
-                // 角丸の半径を変更する
-                sheet.preferredCornerRadius = 20.0
-            }
+        let next = segue.destination
+        if let sheet = next.sheetPresentationController {
+            sheet.detents = [.medium()]
+            //モーダル出現後も親ビュー操作可能にする
+            sheet.largestUndimmedDetentIdentifier = .medium
+            // 角丸の半径を変更する
+            sheet.preferredCornerRadius = 20.0
+        }
         if segue.identifier == "toHalfModal" {
             let secondView = segue.destination as! HalfModalViewController
             secondView.object=self.selectedImage
@@ -187,7 +186,11 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate , MKMapVie
         }
         performSegue(withIdentifier: "toHalfModal", sender: nil)
         annotationView=view.image
+        // ピンの選択を解除
+        for annotaion in mapView.selectedAnnotations {
+            mapView.deselectAnnotation(annotaion, animated: false)
         }
+    }
 }
 
 extension UIImage {
